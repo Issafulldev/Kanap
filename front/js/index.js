@@ -50,7 +50,7 @@ function displayProduct(product) {
   // Utilisation de la méthode slice pour obtenir le début du texte
   const truncatedDescription = description.length > maxDescriptionLength
     ? description.slice(0, maxDescriptionLength) + "..." // Si la description est plus longue que la limite, ajoute "..." pour indiquer la troncature
-    : description; // Sinon, utilisez la description complète
+    : description; // Sinon, utilisez la description complèt
 
   productInfoDesc.innerHTML = truncatedDescription;
 }
