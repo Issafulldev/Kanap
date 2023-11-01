@@ -30,6 +30,7 @@ function displayProduct(product) {
   imageProduct.src = product.imageUrl;
   imageProduct.width = 300;
   imageProduct.height = 250;
+  imageProduct.alt = product.altTxt
 
   const productInfosDiv = document.createElement("div");
   productLink.appendChild(productInfosDiv);
