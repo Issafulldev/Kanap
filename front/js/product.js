@@ -11,6 +11,7 @@ fetch(`http://localhost:3000/api/products/${productId}`)
     const name = data.name;
     const price = data.price;
     const description = data.description;
+    const colors = data.colors;
 
     const productImg = document.createElement("img");
     productImg.src = imageUrl;
@@ -33,6 +34,16 @@ fetch(`http://localhost:3000/api/products/${productId}`)
     const idDescriPoduct = document.getElementById("description");
     idDescriPoduct.appendChild(descriptionProduct);
 
+    const selectColor = document.getElementById("colors");
+    function chooseColor(colorsArray) {
+      colorsArray.forEach(color => {
+        const option = document.createElement("option");
+        option.value = color;
+        option.textContent = color;
+        selectColor.appendChild(option);
+      })
+    }
+    chooseColor(colors)
   })
 
 
