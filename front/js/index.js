@@ -1,14 +1,23 @@
+'use strict';
+
+// Initiates the process to fetch and display products.
 getProducts()
 
+// Asynchronously fetches products from the API and displays them.
 async function getProducts() {
-  const response = await fetch("http://localhost:3000/api/products");
-  const products = await response.json();
-  console.log(products)
-  for (const product of products) {
-    displayProduct(product)
+  try {
+    const response = await fetch("http://localhost:3000/api/products");
+    const products = await response.json();
+    console.log(products)
+    for (const product of products) {
+      displayProduct(product)
+    }
+  } catch (error) {
+    console.log(error)
   }
 }
 
+// Displays a single product's information on the page.
 function displayProduct(product) {
   console.log(product)
 
@@ -33,5 +42,4 @@ function displayProduct(product) {
   productInfoDesc.classList.add("productDescription");
   productInfoDesc.innerHTML = product.description;
   article.appendChild(productInfoDesc);
-
 }
