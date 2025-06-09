@@ -79,11 +79,20 @@ addToCart.addEventListener("click", () => {
     return
   }
 
-  alert(
-    `Le canapé ${document.title} ${color.value} a été ajouté en ${quantity.value} exemplaire(s) à votre panier !`
-  )
-
   manageCart(productToAdd);
+
+  // Notification moderne au lieu d'alert
+  if (window.NotificationManager) {
+    NotificationManager.show(
+      `${document.title} ${color.value} ajouté au panier (${quantity.value}x)`,
+      'success'
+    );
+  }
+
+  // Mettre à jour le mini-panier
+  if (window.miniCartManager) {
+    window.dispatchEvent(new CustomEvent('cartUpdated'));
+  }
 
 });
 

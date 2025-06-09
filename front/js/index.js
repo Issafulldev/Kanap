@@ -1,19 +1,46 @@
 'use strict';
 
 // Initiates the process to fetch and display products.
-getProducts()
+document.addEventListener('DOMContentLoaded', () => {
+  getProducts();
+});
 
 // Asynchronously fetches products from the API and displays them.
 async function getProducts() {
   try {
+    // Show skeleton loading
+    if (window.LoadingManager) {
+      LoadingManager.showSkeleton();
+    }
+
+    // Simulate network delay for demo (remove in production)
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     const response = await fetch("http://localhost:3000/api/products");
     const products = await response.json();
-    console.log(products)
+    console.log(products);
+
     for (const product of products) {
-      displayProduct(product)
+      displayProduct(product);
     }
+
+    // Hide skeleton and show products
+    if (window.LoadingManager) {
+      LoadingManager.hideSkeleton();
+    }
+
   } catch (error) {
-    console.log(error)
+    console.error('Erreur lors du chargement des produits:', error);
+
+    // Hide skeleton in case of error
+    if (window.LoadingManager) {
+      LoadingManager.hideSkeleton();
+    }
+
+    // Show error notification
+    if (window.NotificationManager) {
+      NotificationManager.show('Erreur lors du chargement des produits', 'error');
+    }
   }
 }
 
