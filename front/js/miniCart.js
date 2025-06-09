@@ -12,6 +12,11 @@ class MiniCartManager {
     this.miniCartTotal = document.getElementById('miniCartTotal');
     this.miniCartClose = document.getElementById('miniCartClose');
 
+    console.log('MiniCartManager initialized'); // Debug
+    console.log('Mini cart element:', this.miniCart); // Debug
+    console.log('Cart counter:', this.cartCounter); // Debug
+    console.log('Close button:', this.miniCartClose); // Debug
+
     this.init();
   }
 
@@ -22,23 +27,33 @@ class MiniCartManager {
   }
 
   bindEvents() {
-    // Toggle mini-cart au hover
-    const cartContainer = document.querySelector('.cart-container');
-    if (cartContainer) {
-      cartContainer.addEventListener('mouseenter', () => this.showMiniCart());
-      cartContainer.addEventListener('mouseleave', (e) => {
-        // Délai pour permettre de naviguer dans le mini-cart
-        setTimeout(() => {
-          if (!cartContainer.matches(':hover')) {
-            this.hideMiniCart();
-          }
-        }, 300);
+    const cartLink = document.querySelector('.cart-link');
+
+    // Version simplifiée pour debug
+    if (cartLink) {
+      cartLink.addEventListener('click', (e) => {
+        console.log('Cart link clicked!'); // Debug
+        e.preventDefault();
+        this.toggleMiniCart();
       });
     }
 
-    // Fermer le mini-cart
+    // Fermer le mini-cart avec le bouton close
     if (this.miniCartClose) {
-      this.miniCartClose.addEventListener('click', () => this.hideMiniCart());
+      this.miniCartClose.addEventListener('click', () => {
+        console.log('Close button clicked!'); // Debug
+        this.hideMiniCart();
+      });
+    }
+
+    // Fermer en cliquant sur l'overlay
+    if (this.miniCart) {
+      this.miniCart.addEventListener('click', (e) => {
+        if (e.target === this.miniCart) {
+          console.log('Overlay clicked!'); // Debug
+          this.hideMiniCart();
+        }
+      });
     }
 
     // Observer les changements du localStorage
@@ -57,17 +72,105 @@ class MiniCartManager {
       this.updateMiniCart();
       this.animateCounter();
     });
+
+    // Fermer avec la touche Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && this.miniCart && this.miniCart.classList.contains('show')) {
+        console.log('Escape pressed, hiding mini cart...');
+        this.hideMiniCart();
+      }
+    });
   }
 
   showMiniCart() {
+    console.log('Showing mini cart...'); // Debug
     if (this.miniCart) {
       this.miniCart.classList.add('show');
+      // Empêcher le scroll du body sur mobile
+      document.body.style.overflow = 'hidden';
+      console.log('Mini cart shown, classes:', this.miniCart.classList.toString()); // Debug
+    } else {
+      console.log('Mini cart element not found!'); // Debug
     }
   }
 
   hideMiniCart() {
+    console.log('Hiding mini cart...'); // Debug
     if (this.miniCart) {
       this.miniCart.classList.remove('show');
+      // Rétablir le scroll du body
+      document.body.style.overflow = '';
+      console.log('Mini cart hidden'); // Debug
+    }
+  }
+
+  toggleMiniCart() {
+    console.log('Toggling mini cart...'); // Debug
+    if (this.miniCart) {
+      if (this.miniCart.classList.contains('show')) {
+        console.log('Mini cart is visible, hiding...'); // Debug
+        this.hideMiniCart();
+      } else {
+        console.log('Mini cart is hidden, showing...'); // Debug
+        this.showMiniCart();
+      }
+    } else {
+      console.log('Mini cart element not found in toggle!'); // Debug
+    }
+  }
+
+  // Méthodes publiques pour contrôler le mini-cart
+  show() {
+    this.showMiniCart();
+  }
+
+  hide() {
+    this.hideMiniCart();
+  }
+
+  setupCartEvents(cartContainer, cartLink) {
+    if (!cartContainer || !cartLink) return;
+
+    // Supprimer les event listeners existants
+    const newCartLink = cartLink.cloneNode(true);
+    cartLink.parentNode.replaceChild(newCartLink, cartLink);
+
+    const isMobile = () => window.innerWidth <= 768;
+
+    if (isMobile()) {
+      // Sur mobile : utiliser click pour toggle le mini-cart
+      newCartLink.addEventListener('click', (e) => {
+        e.preventDefault(); // Empêcher la navigation vers cart.html
+        this.toggleMiniCart();
+      });
+
+      // Fermer en cliquant sur l'overlay
+      if (this.miniCart) {
+        this.miniCart.addEventListener('click', (e) => {
+          if (e.target === this.miniCart) {
+            console.log('Overlay clicked, hiding mini cart...');
+            this.hideMiniCart();
+          }
+        });
+
+        // Empêcher la fermeture quand on clique dans le conteneur
+        const container = this.miniCart.querySelector('.mini-cart-container');
+        if (container) {
+          container.addEventListener('click', (e) => {
+            e.stopPropagation();
+          });
+        }
+      }
+    } else {
+      // Sur desktop : utiliser hover comme avant
+      cartContainer.addEventListener('mouseenter', () => this.showMiniCart());
+      cartContainer.addEventListener('mouseleave', (e) => {
+        setTimeout(() => {
+          if (!cartContainer.matches(':hover')) {
+            this.hideMiniCart();
+          }
+        }, 300);
+      });
     }
   }
 
@@ -113,12 +216,12 @@ class MiniCartManager {
           <p class="mini-cart-item-name">${item.name}</p>
           <p class="mini-cart-item-details">${item.color} - Qté: ${item.quantity}</p>
         </div>
-        <div class="mini-cart-item-price">${(item.price * item.quantity).toFixed(2)} €</div>
+        <div class="mini-cart-item-price">${((item.price / 100) * item.quantity).toFixed(2)} €</div>
       </div>
     `).join('');
 
     // Update total
-    const total = cartWithDetails.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const total = cartWithDetails.reduce((sum, item) => sum + ((item.price / 100) * item.quantity), 0);
     this.miniCartTotal.textContent = `${total.toFixed(2)} €`;
   }
 

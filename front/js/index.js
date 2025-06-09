@@ -60,13 +60,24 @@ function displayProduct(product) {
   imageProduct.alt = product.altTxt;
   article.appendChild(imageProduct);
 
+  // Create product info container for mobile layout
+  const productInfo = document.createElement("div");
+  productInfo.classList.add("product-info");
+  article.appendChild(productInfo);
+
   const productInfoTitle = document.createElement("h3");
   productInfoTitle.classList.add("productName");
   productInfoTitle.innerHTML = product.name;
-  article.appendChild(productInfoTitle);
+  productInfo.appendChild(productInfoTitle);
 
   const productInfoDesc = document.createElement("p");
   productInfoDesc.classList.add("productDescription");
   productInfoDesc.innerHTML = product.description;
-  article.appendChild(productInfoDesc);
+  productInfo.appendChild(productInfoDesc);
+
+  // Add price display for mobile
+  const productPrice = document.createElement("div");
+  productPrice.classList.add("product-price");
+  productPrice.innerHTML = `<strong>${(product.price / 100).toFixed(2)} €</strong>`;
+  productInfo.appendChild(productPrice);
 }

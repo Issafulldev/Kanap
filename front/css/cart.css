@@ -482,3 +482,210 @@ h2 {
 	transform: translateY(-2px);
 	box-shadow: var(--shadow-lg);
 }
+
+/* ===============================
+   MOBILE TOUCH OPTIMIZATION
+   =============================== */
+
+@media (max-width: 768px) {
+
+	/* Enhanced mobile cart layout */
+	.cart__item {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-md);
+		padding: var(--space-lg);
+		margin-bottom: var(--space-lg);
+		border-radius: var(--radius-lg);
+		background: var(--white);
+		box-shadow: var(--shadow-md);
+		border: 2px solid transparent;
+		transition: all var(--transition-normal);
+	}
+
+	.cart__item:hover {
+		border-color: var(--primary-color);
+		transform: translateY(-2px);
+	}
+
+	.cart__item__img {
+		align-self: center;
+		width: 120px;
+		height: 120px;
+	}
+
+	.cart__item__img img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: var(--radius-md);
+	}
+
+	.cart__item__content {
+		text-align: center;
+	}
+
+	.cart__item__content__description h2 {
+		font-size: 1.2rem;
+		margin-bottom: var(--space-sm);
+	}
+
+	.cart__item__content__description p {
+		font-size: 1rem;
+		margin-bottom: var(--space-xs);
+	}
+
+	.cart__item__content__settings {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-md);
+		align-items: center;
+		margin-top: var(--space-md);
+	}
+
+	.cart__item__content__settings__quantity {
+		display: flex;
+		align-items: center;
+		gap: var(--space-sm);
+		background: var(--light-gray);
+		padding: var(--space-sm);
+		border-radius: var(--radius-lg);
+	}
+
+	.cart__item__content__settings__quantity p {
+		margin: 0;
+		font-weight: 600;
+	}
+
+	.cart__item__content__settings input {
+		width: 60px;
+		height: 40px;
+		text-align: center;
+		font-size: 1rem;
+		font-weight: 600;
+		border: 2px solid var(--white);
+		border-radius: var(--radius-md);
+		background: var(--white);
+	}
+
+	.cart__item__content__settings__delete p {
+		background: var(--danger-color);
+		color: var(--white);
+		padding: var(--space-sm) var(--space-lg);
+		border-radius: var(--radius-lg);
+		font-weight: 600;
+		font-size: 0.9rem;
+		cursor: pointer;
+		transition: all var(--transition-normal);
+		min-height: 44px;
+		/* Touch target size */
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.cart__item__content__settings__delete p:hover {
+		background: #dc2626;
+		transform: scale(1.05);
+	}
+
+	/* Mobile cart total */
+	.cart__price {
+		position: sticky;
+		bottom: 0;
+		background: var(--white);
+		padding: var(--space-lg);
+		margin: var(--space-lg) 0;
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow-xl);
+		z-index: 100;
+	}
+
+	.cart__price p {
+		font-size: 1.3rem;
+		text-align: center;
+		margin: 0;
+	}
+
+	/* Mobile form optimization */
+	.cart__order__form {
+		margin: 0;
+		padding: var(--space-lg);
+		background: var(--white);
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow-md);
+	}
+
+	.cart__order__form__question {
+		margin-bottom: var(--space-lg);
+	}
+
+	.cart__order__form__question label {
+		font-size: 1rem;
+		font-weight: 600;
+		margin-bottom: var(--space-sm);
+		color: var(--dark-gray);
+	}
+
+	.cart__order__form__question input {
+		min-height: 48px;
+		/* Touch-friendly */
+		font-size: 16px;
+		/* Prevents zoom on iOS */
+		padding: var(--space-md);
+		border-radius: var(--radius-lg);
+		border: 2px solid var(--light-gray);
+		background: var(--white);
+		transition: all var(--transition-normal);
+	}
+
+	.cart__order__form__question input:focus {
+		border-color: var(--primary-color);
+		box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+		transform: translateY(-1px);
+	}
+
+	.cart__order__form__submit input {
+		width: 100%;
+		min-height: 50px;
+		font-size: 1.1rem;
+		padding: var(--space-md);
+		border-radius: var(--radius-lg);
+		transition: all var(--transition-normal);
+	}
+
+	.cart__order__form__submit input:hover {
+		transform: translateY(-2px);
+	}
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+
+	.limitedWidthBlockContainer {
+		padding: 0 var(--space-sm);
+	}
+
+	.cart__item {
+		padding: var(--space-md);
+		margin-bottom: var(--space-md);
+	}
+
+	.cart__item__img {
+		width: 100px;
+		height: 100px;
+	}
+
+	.cart__item__content__description h2 {
+		font-size: 1.1rem;
+	}
+
+	.cart__order__form {
+		padding: var(--space-md);
+	}
+
+	.cart__order__form__question input {
+		min-height: 44px;
+		font-size: 16px;
+	}
+}

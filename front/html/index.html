@@ -12,7 +12,7 @@
     <link href="../css/style.css" rel="stylesheet" />
 
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   </head>
 
   <body>
@@ -42,18 +42,31 @@
                   </li>
                 </a>
                 <div class="mini-cart" id="miniCart">
-                  <div class="mini-cart-header">
-                    <h3>Votre panier</h3>
-                    <button class="mini-cart-close" id="miniCartClose">×</button>
-                  </div>
-                  <div class="mini-cart-items" id="miniCartItems">
-                    <p class="empty-cart-message">Votre panier est vide</p>
-                  </div>
-                  <div class="mini-cart-footer">
-                    <div class="mini-cart-total">
-                      <span>Total: <strong id="miniCartTotal">0,00 €</strong></span>
+                  <div class="mini-cart-container">
+                    <h3>
+                      Votre panier
+                      <button class="close-btn" onclick="miniCartManager.hide()" aria-label="Fermer">×</button>
+                    </h3>
+                    <div class="mini-cart-items" id="miniCartItems">
+                      <!-- Exemple d'item pour la démo -->
+                      <div class="mini-cart-item">
+                        <img src="../images/product01.jpg" alt="Kanap Sinopé">
+                        <div class="mini-cart-item-info">
+                          <h4>Kanap Sinopé</h4>
+                          <p>Black - Qté: 2</p>
+                        </div>
+                        <div class="mini-cart-item-price">36.98 €</div>
+                      </div>
                     </div>
-                    <a href="./cart.html" class="mini-cart-checkout-btn">Voir le panier</a>
+                    <div class="mini-cart-footer">
+                      <div class="mini-cart-total">
+                        <span>Total:</span>
+                        <strong id="miniCartTotal">36.98 €</strong>
+                      </div>
+                      <button class="mini-cart-cta" onclick="window.location.href='cart.html'">
+                        Voir le panier complet
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -134,7 +147,36 @@
         </div>
       </div>
     </footer>
-  <script src="../js/miniCart.js"></script>
-  <script src="../js/index.js"></script>
+      <!-- Back to top button (mobile only) -->
+    <button class="back-to-top" id="backToTop" title="Retour en haut">
+      ⬆️
+    </button>
+
+
+
+    <script src="../js/miniCart.js"></script>
+    <script src="../js/index.js"></script>
+
+    <script>
+      // Back to top functionality
+      const backToTopButton = document.getElementById('backToTop');
+      
+      if (backToTopButton) {
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 300) {
+            backToTopButton.classList.add('show');
+          } else {
+            backToTopButton.classList.remove('show');
+          }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        });
+      }
+    </script>
   </body>
 </html>
